@@ -6,6 +6,7 @@ library(tidyverse)
 library(magrittr)
 library(readxl)
 library(ggplot2)
+library(Rmisc)
 
 
 ## Start by reading the data
@@ -140,12 +141,30 @@ df_chloropicrin <- grep("chloropicrin",
                         ignore.case = T)
 
 ## Telone empty
-df_Telone <- grep("Telone", 
+df_Telone <- grep("methyl bromide", 
                   strawb$`Domain Category`, 
                   ignore.case = T)
 
 
-strawb1<-subset(strawb,Value>0)
+
+
+strawb1<-subset(strawb,State=="CALIFORNIA")
+strawb1<-subset(strawb1,Year==2016)
+strawb1<-subset(strawb1,Value!="(D)")
+strawb1<-subset(strawb1,Value!="(NA)")
+strawb1<-subset(strawb1,Domain!="ORGANIC STATUS")
+
+t.test(strawb1$Value)
+
+unique(strawb$`Domain Category`)
+
+strawb2<-subset(strawb,State=="CALIFORNIA")
+
+unique(strawb2$`Domain Category`)
+
+strawb3<-subset(strawb,State=="FLORIDA")
+
+unique(strawb3$`Domain Category`)
 
 summary(strawb)
 
@@ -156,3 +175,4 @@ ggplot(strawb1, aes(x = Year, y = Value)) +
 
 ggplot(strawb, aes(x = Year, y = Value)) +
   geom_boxplot() 
+
